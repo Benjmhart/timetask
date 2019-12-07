@@ -7,9 +7,10 @@ jobs:
       - restore_cache:
           name: Restore Cached Dependencies
           key: timetask--{{ checksum ".circleci/config.yml" }}-{{ checksum "package.yaml" }}
+      - run sudo dir
       - run: 
           name: install stack
-          command: sudo sh getStack.sh
+          command: sudo sh ~/getStack.sh
 
       - run:
           name: Resolve and update dependencies
