@@ -13,7 +13,7 @@ jobs:
           command: stack setup
       - run:
           name: Install Cabal and hlint
-          command: stack install --system-ghc --resolver=lts-14.16 Cabal hlint ormolu
+          command: stack install --system-ghc --resolver=lts-14.16 Cabal hlint
       - run:
           name: Build the dependencies and the library
           command: stack --silent build
