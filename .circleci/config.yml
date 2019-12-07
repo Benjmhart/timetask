@@ -17,7 +17,7 @@ jobs:
           command: stack setup
       - run:
           name: Install hlint
-          command: stack install --resolver=lts-14.16 hlint
+          command: sh ciLint.sh
       - run:
           name: Build the dependencies and the library
           command: stack --silent build
