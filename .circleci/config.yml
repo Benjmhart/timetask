@@ -1,6 +1,7 @@
 version: 2
 jobs:
   build-test:
+    machine: true
     steps:
       - checkout
       - run: wget https://github.com/commercialhaskell/stack/releases/download/v1.6.1/stack-1.6.1-linux-x86_64.tar.gz -O /tmp/stack.tar.gz
@@ -15,8 +16,8 @@ jobs:
           name: Resolve and update dependencies
           command: stack setup
       - run:
-          name: Install Cabal and hlint
-          command: stack install --system-ghc --resolver=lts-14.16 Cabal hlint
+          name: Install hlint
+          command: stack install --resolver=lts-14.16 hlint
       - run:
           name: Build the dependencies and the library
           command: stack --silent build
