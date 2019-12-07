@@ -1,0 +1,36 @@
+version: 2
+jobs:
+  build-test:
+    docker:
+      - image: fpco/stack-build:lts-14.16
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore Cached Dependencies
+          key: timetask--{{ checksum ".circleci/config.yml" }}-{{ checksum "package.yaml" }}
+      - run:
+          name: Resolve and update dependencies
+          command: stack setup
+      - run:
+          name: Install Cabal and hlint
+          command: stack install --system-ghc --resolver=lts-14.16 Cabal hlint ormolu
+      - run:
+          name: Build the dependencies and the library
+          command: stack --silent build
+      - save_cache:
+          name: Cache Build
+          key: timetask--{{ checksum ".circleci/config.yml" }}-{{ checksum "package.yaml" }}
+          paths:
+            - ".stack"
+            - ".stack-work"
+            - ".local"
+            - "/root/.stack"
+      - run:
+          name: Run Linter
+          command: git ls-files | grep '\.l\?hs$' | xargs stack exec -- hlint -X QuasiQuotes -X NoPatternSynonyms "$@"
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - build-test

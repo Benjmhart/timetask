@@ -27,6 +27,8 @@ library:
   dependencies:
   - rio
   - dhall
+  - ormolu
+  - hlint
 executables:
   timetask-exe:
     main:                Main.hs

@@ -1,18 +1,25 @@
-{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveAnyClass #-}
-{-# LANGUAGE DeriveGeneric #-} 
+{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE NoImplicitPrelude #-}
+{-# LANGUAGE OverloadedStrings #-}
 
-module Lib (timeTaskMain) where
+module Lib
+  ( timeTaskMain,
+  )
+where
 
-import Prelude
 import Data.Functor.Identity
 import Dhall
+import Prelude
 
+data Task
+  = Task
+      { name :: String,
+        steps :: [String]
+      }
+  deriving (Eq, Ord, Show, Generic, ToDhall, FromDhall)
 
 timeTaskMain :: IO ()
 timeTaskMain = do
-  ex <- input auto "[ Left 1, Right \"Hello\"]" :: IO (Vector (Either Natural Text)) 
-  print ex 
-
--- $> timeTaskMain
+  tasks <- input auto "./config.dhall" :: IO (Vector Task)
+  print tasks
