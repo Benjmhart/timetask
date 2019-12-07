@@ -10,7 +10,7 @@ jobs:
       - run: sudo dir
       - run: 
           name: install stack
-          command: sudo sh ~/getStack.sh
+          command: sudo sh ./getStack.sh
 
       - run:
           name: Resolve and update dependencies
